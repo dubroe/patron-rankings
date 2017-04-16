@@ -1,1 +1,8 @@
-%p Hello!
+- if @current_vote.present?
+  %p Your vote: #{@current_vote.player.name}
+- else
+  %p You haven't voted yet today
+
+= simple_form_for(Vote.new) do |f|
+  = f.input :player_id, collection: @players, include_blank: false
+  = f.submit
