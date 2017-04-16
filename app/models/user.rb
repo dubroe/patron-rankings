@@ -13,6 +13,6 @@ class User < ApplicationRecord
   end
 
   def todays_vote
-    votes.where("created_at >= ?", Time.now.beginning_of_day).first
+    votes.created_on(Date.today).first
   end
 end
