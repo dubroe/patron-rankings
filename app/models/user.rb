@@ -12,7 +12,11 @@ class User < ApplicationRecord
     end
   end
 
-  def todays_vote
-    votes.created_on(Date.today).first
+  def current_vote
+    votes.active.first
+  end
+
+  def current_or_new_vote
+    current_vote || votes.build
   end
 end
