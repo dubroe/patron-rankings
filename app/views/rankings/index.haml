@@ -1,20 +1,21 @@
-%h1 Full Ranking:
-%ol
-  - @ranked_players.each do |player|
-    %li= player.name
+- if current_user
+  %h1 Full Ranking:
+  %ol
+    - @ranked_players.each do |player|
+      %li= player.name
 
-- if @current_vote.present?
-  %h1 Your current vote for today: #{@current_vote.player.name}
-- else
-  %h1 You haven't voted yet today
+  - if @current_vote.present?
+    %h1 Your current vote for today: #{@current_vote.player.name}
+  - else
+    %h1 You haven't voted yet today
 
-%h2 Today's Votes:
-- @active_grouped_votes.each do |player, votes|
-  %p
-    #{player.name} - #{votes.length} (#{votes.map(&:user).map(&:name).join(', ')})
-    - unless @current_vote.player == player
-      = link_to "Vote", votes_path(vote: {player_id: player.id}), method: :post
+  %h2 Today's Votes:
+  - @active_grouped_votes.each do |player, votes|
+    %p
+      #{player.name} - #{votes.length} (#{votes.map(&:user).map(&:name).join(', ')})
+      - unless @current_vote.player == player
+        = link_to "Vote", votes_path(vote: {player_id: player.id}), method: :post
 
-= simple_form_for(Vote.new) do |f|
-  = f.input :player_id, collection: @available_players, include_blank: false
-  = f.submit
+  = simple_form_for(Vote.new) do |f|
+    = f.input :player_id, collection: @available_players, include_blank: false
+    = f.submit
